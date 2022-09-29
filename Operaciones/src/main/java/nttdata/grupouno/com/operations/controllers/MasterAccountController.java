@@ -6,6 +6,7 @@ import nttdata.grupouno.com.operations.services.IAccountClientService;
 import nttdata.grupouno.com.operations.services.IMasterAccountServices;
 import nttdata.grupouno.com.operations.services.ITypeAccountService;
 
+import nttdata.grupouno.com.operations.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,9 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -178,5 +182,13 @@ public class MasterAccountController {
     public Mono<ResponseEntity<Flux<MasterAccountModel>>> findByClient(@PathVariable("codeClient") final String codeClient) {
         Flux<MasterAccountModel> accountFlux = accountServices.findByClient(codeClient);
         return Mono.just(new ResponseEntity<>(accountFlux, accountFlux != null ? HttpStatus.OK : HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/report/{type}/{startDate}/{endDate}")
+    public Flux<MasterAccountModel> report(@PathVariable("type") final String type,@PathVariable("startDate") final String startDate,@PathVariable("endDate") final String endDate) throws ParseException {
+
+        Flux<MasterAccountModel> master= accountServices.findAllAccount();
+        return master.filter(a -> Util.stringToDate(a.getStartDate()).compareTo(Util.stringToDate(startDate)) >=0 && Util.stringToDate(a.getStartDate()).compareTo(Util.stringToDate(endDate)) <=0)
+                .filter(b -> b.getType().getCode().equals(type));
     }
 }
