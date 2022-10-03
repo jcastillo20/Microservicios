@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "32a45dba-b9c3-4034-9baf-93d8edbb3cc1",
+		"name": "CardxAccount",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23357672"
+	},
+	"item": [
+		{
+			"name": "Guarda asociacion",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2,\r\n    \"numberCard\":\"0000111122229999\",\r\n    \"type\":\"D\",\r\n    \"amount\":0.00,\r\n    \"status\":\"A\",\r\n    \"startDate\":null,\r\n    \"endDate\":null,\r\n    \"idMainMasterAccount\":null,\r\n    \"maxAmountCreditCard\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8010/operation/card/",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"operation",
+						"card",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Asociacion",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2,\r\n    \"numberCard\":\"0000111122229999\",\r\n    \"type\":\"D\",\r\n    \"amount\":0.00,\r\n    \"status\":\"A\",\r\n    \"startDate\":null,\r\n    \"endDate\":null,\r\n    \"idMainMasterAccount\":null,\r\n    \"maxAmountCreditCard\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8010/operation/cardxAcc/100",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"operation",
+						"cardxAcc",
+						"100"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

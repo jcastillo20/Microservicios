@@ -1,0 +1,100 @@
+{
+	"info": {
+		"_postman_id": "5037f86b-d2e4-485c-8b5f-cf2c93e16626",
+		"name": "Card",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23357672"
+	},
+	"item": [
+		{
+			"name": "Lista tarjetas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8010/operation/card/all",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"operation",
+						"card",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Guarda tarjeta",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2,\r\n    \"numberCard\":\"0000111122229999\",\r\n    \"type\":\"D\",\r\n    \"amount\":0.00,\r\n    \"status\":\"A\",\r\n    \"startDate\":null,\r\n    \"endDate\":null,\r\n    \"idMainMasterAccount\":null,\r\n    \"maxAmountCreditCard\":null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8010/operation/card/",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"operation",
+						"card",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busca tarjeta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/afiliado/1/Diego",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"afiliado",
+						"1",
+						"Diego"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busca tarjeta por # tarjeta",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8010/operation/card/numberCard/0000111122229999",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"operation",
+						"card",
+						"numberCard",
+						"0000111122229999"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
