@@ -83,10 +83,9 @@ public class MasterAccountController {
                             response.put("account", e);
                             a.getClientModel().setNumberAccount(e.getNumberAccount());
                             a.getClientModel().setTypeAccount(b.getCode());
-    
                             return accountClientService.registerClient(a.getClientModel()).flatMap(f -> {
                                 response.put("clients", f);
-                                return Mono.just(ResponseEntity.created(URI.create("/api/account/bank"))
+                                return Mono.just(ResponseEntity.created(URI.create("/operation/account/bank"))
                                         .body(response));
                             })
                             .switchIfEmpty(accountServices.deleteBydId(e.getId()).flatMap(ff -> {

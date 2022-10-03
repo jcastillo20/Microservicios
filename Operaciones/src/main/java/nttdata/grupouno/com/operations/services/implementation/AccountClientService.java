@@ -28,12 +28,11 @@ public class AccountClientService implements IAccountClientService {
 
     @Override
     public Mono<AccountClientModel> registerClient(AccountClientModel model) {
-        return this.webClient.findClient(model.getCodeClient())
-            .flatMap(x -> {
-                if(!x.getId().equals(model.getCodeClient()))
-                    return Mono.empty();
-                return accountClientRepositorio.save(model);
-        }).onErrorResume(y -> Mono.empty());
+        if(this.webClient.findClient(model.getCodeClient())!=null){
+            return accountClientRepositorio.save(model);
+        }else{
+            return null;
+        }
     }
 
     @Override

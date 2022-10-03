@@ -11,7 +11,7 @@ public class WebClientApi {
     
     public Mono<MasterAccountModel> findClient(String id){
         return webClient.get()
-                        .uri("/api/clients/{id}", id)
+                        .uri("/api/clients/findByIdPerson/{idPerson}", id)
                         .retrieve()
                         .bodyToMono(MasterAccountModel.class);
     }
