@@ -2,9 +2,11 @@ package nttdata.grupouno.com.Clients.convert;
 
 import nttdata.grupouno.com.Clients.models.Clients;
 import nttdata.grupouno.com.Clients.models.LegalPerson;
+import nttdata.grupouno.com.Clients.models.MasterAccount;
 import nttdata.grupouno.com.Clients.models.NaturalPerson;
 import nttdata.grupouno.com.Clients.models.dto.ClientsLegal;
 import nttdata.grupouno.com.Clients.models.dto.ClientsNatural;
+import nttdata.grupouno.com.Clients.models.dto.ClientsWithAccounts;
 import nttdata.grupouno.com.Clients.models.dto.NaturalClients;
 import org.springframework.stereotype.Component;
 
@@ -53,4 +55,14 @@ public class ClientsConvert {
 
         return naturalClients;
     }
+    
+    public ClientsWithAccounts convertWithAccounts(Clients clients, List<MasterAccount> accounts) {
+    	ClientsWithAccounts clientsWithAccounts = new ClientsWithAccounts();
+    	clientsWithAccounts.setId(clients.getId());
+    	clientsWithAccounts.setIdPerson(clients.getIdPerson());
+    	clientsWithAccounts.setIdTypePerson(clients.getIdTypePerson());
+    	clientsWithAccounts.setAccounts(accounts);
+    	return clientsWithAccounts;
+    }
+    
 }

@@ -6,6 +6,8 @@ import nttdata.grupouno.com.operations.repositories.implementation.AccountClient
 import nttdata.grupouno.com.operations.repositories.implementation.MasterAccountRepository;
 import nttdata.grupouno.com.operations.repositories.implementation.TypeAccountRepository;
 import nttdata.grupouno.com.operations.services.IMasterAccountServices;
+import nttdata.grupouno.com.operations.util.Util;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -84,4 +86,12 @@ public class MasterAccountServices implements IMasterAccountServices {
         return accountClientRepositorio.findByCodeClient(codeClient)
                 .flatMap(accountClientModel -> findByAccount(accountClientModel.getNumberAccount()));
     }
+
+	@Override
+	public Flux<MasterAccountModel> findAccountsCreditWithExpiredDebtByClient(String codeClient, String date) {
+		return findByClient(codeClient)
+				.filter( account -> account.getType().getCode() == "CRE1" || account.getType().getCode() == "CRE2" )
+				.filter( account -> date.compareTo(account.getDebtDeuDate()) < 0 && account.getAmount() > 0 )
+				;
+	}
 }

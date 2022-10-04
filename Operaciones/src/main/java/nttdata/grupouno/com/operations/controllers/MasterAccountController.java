@@ -5,6 +5,7 @@ import nttdata.grupouno.com.operations.models.dto.RegisterAccountDto;
 import nttdata.grupouno.com.operations.services.IAccountClientService;
 import nttdata.grupouno.com.operations.services.IMasterAccountServices;
 import nttdata.grupouno.com.operations.services.ITypeAccountService;
+import nttdata.grupouno.com.operations.util.Util;
 
 import nttdata.grupouno.com.operations.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.WebExchangeBindException;
 
+import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
+
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 import java.net.URI;
+//<<<<<<< HEAD
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+//=======
+//>>>>>>> 2d158c0 (Creacion del /api/clients/account/{id} y modificacion del servicio de creacion de cuenta /operation/account/bank)
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,6 +66,7 @@ public class MasterAccountController {
                     response.put("limit", "El monto mínimo de apertura para este producto es de ".concat(b.getAmountStart().toString()));
                     return Mono.just(ResponseEntity.badRequest().body(response));
                 }
+
                 return accountClientService.countByCodeClientAndTypeAccountLike(a.getClientModel().getCodeClient(), b.getCodeRequired()).flatMap(bb -> {
                     if(bb == 0){
                         response.put("limit", "Para este producto es requisito tener una(s) cuenta(s) del tipo: ".concat(b.getCodeRequired()));
@@ -74,7 +81,16 @@ public class MasterAccountController {
                             response.put("limit", "El máximo de cuentas del tipo <<".concat(b.getDescription()).concat(">> es ").concat(b.getCountBusiness().toString()));
                             return Mono.just(ResponseEntity.badRequest().body(response));
                         }
-                        return accountServices.findByAccount(a.getAccountModel().getNumberAccount()).flatMap(d -> {
+                        accountServices.findAccountsCreditWithExpiredDebtByClient(a.getClientModel().getCodeClient(), Util.dateToString(new Date()))
+                        .map(d -> {
+                        		response.put("El cliente tiene cuentas de credito con deuda pendientes", d);
+                                return Mono.just(ResponseEntity.badRequest()
+                                .body(response));
+                        		}
+                        );
+                        
+                        return 
+                        accountServices.findByAccount(a.getAccountModel().getNumberAccount()).flatMap(d -> {
                             response.put("duplicit", d);
                             return Mono.just(ResponseEntity.badRequest()
                                     .body(response));
@@ -104,6 +120,9 @@ public class MasterAccountController {
                                 });
                             });
                         }));
+                        	///
+                        //);
+                        
                     });
                 });
             }).defaultIfEmpty(ResponseEntity.badRequest().body(response))

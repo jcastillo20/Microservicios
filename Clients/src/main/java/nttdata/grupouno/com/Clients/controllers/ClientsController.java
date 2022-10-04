@@ -6,6 +6,7 @@ import nttdata.grupouno.com.Clients.models.MasterAccount;
 import nttdata.grupouno.com.Clients.models.MovementDetail;
 import nttdata.grupouno.com.Clients.models.dto.ClientsLegal;
 import nttdata.grupouno.com.Clients.models.dto.ClientsNatural;
+import nttdata.grupouno.com.Clients.models.dto.ClientsWithAccounts;
 import nttdata.grupouno.com.Clients.models.dto.NaturalClients;
 import nttdata.grupouno.com.Clients.services.ClientsService;
 import nttdata.grupouno.com.Clients.services.dto.ClientsLegalService;
@@ -163,6 +164,12 @@ public class ClientsController {
     public Flux<MasterAccount> findAccountByIdLegal(@PathVariable final Long ruc){
         return clientsLegalService.findAccountByRuc(ruc);
     }
+    
+    @CircuitBreaker(name="operation", fallbackMethod = "fallBackListAccountsByClient")
+    @GetMapping("/account/{id}")
+    public Mono<ClientsWithAccounts> listAccountsByClient(@PathVariable final String id){
+    	return clientsService.findByIdClientWithAccounts(id);
+    }
 
     private Flux<MovementDetail> fallBackfindMovementByIdNatural( RuntimeException ex){
         MovementDetail details= new MovementDetail();
@@ -187,6 +194,11 @@ public class ClientsController {
     private ResponseEntity<List<MovementDetail>> fallBackfindAccountByIdLegal(@PathVariable final Long ruc, RuntimeException ex){
         MovementDetail movementDetail=new MovementDetail();
         return  new ResponseEntity("El microservicio de movimiento no esta disponible. fallBackfindAccountByIdLegal "+ruc,HttpStatus.OK);
+    }
+    
+    private ResponseEntity<List<MovementDetail>> fallBackListAccountsByClient(RuntimeException ex){
+        MovementDetail movementDetail=new MovementDetail();
+        return  new ResponseEntity("El microservicio de movimiento no esta disponible. fallBackListAccountsByClient",HttpStatus.OK);
 
     }
 }

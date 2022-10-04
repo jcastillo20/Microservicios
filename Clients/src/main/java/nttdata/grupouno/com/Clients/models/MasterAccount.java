@@ -33,4 +33,6 @@ public class MasterAccount {
     private Double amount;
     @NotEmpty
     private String coinType; // PEN - USD
+    
+    private String debtDeuDate;
 }

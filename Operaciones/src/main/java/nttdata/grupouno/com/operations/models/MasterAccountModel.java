@@ -32,5 +32,9 @@ public class MasterAccountModel {
     @DecimalMin(value = "0.00", message = "El monto no puede ser negativo")
     private Double amount;
     @NotEmpty
-    private String coinType; // PEN - USD
+    private String coinType; // PEN - USD   
+    
+    private String debtDeuDate;
+    
+    
 }

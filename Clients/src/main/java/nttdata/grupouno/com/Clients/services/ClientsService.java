@@ -3,6 +3,7 @@ package nttdata.grupouno.com.Clients.services;
 import nttdata.grupouno.com.Clients.models.Clients;
 import nttdata.grupouno.com.Clients.models.dto.ClientsLegal;
 import nttdata.grupouno.com.Clients.models.dto.ClientsNatural;
+import nttdata.grupouno.com.Clients.models.dto.ClientsWithAccounts;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,4 +18,7 @@ public interface ClientsService {
     Flux<Clients> findByIdTypePerson(Long idTypePerson);
 
     Mono<Clients> findByIdPerson(String id);
+    
+    Mono<ClientsWithAccounts> findByIdClientWithAccounts(String id);
+    
 }
