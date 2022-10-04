@@ -9,5 +9,6 @@ public interface ICardService {
     void createCard(CardModel card);
     Mono<CardModel> findCardById(Integer id);
     Flux<CardModel> findAllCards();
+    Mono<CardModel> updateCard(CardModel card, Integer id);
     Mono<CardModel> findByNumberCard(String numberCard);
 }
