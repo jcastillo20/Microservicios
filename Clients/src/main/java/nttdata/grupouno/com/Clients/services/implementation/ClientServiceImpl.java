@@ -8,6 +8,7 @@ import nttdata.grupouno.com.Clients.models.NaturalPerson;
 import nttdata.grupouno.com.Clients.models.dto.ClientsLegal;
 import nttdata.grupouno.com.Clients.models.dto.ClientsNatural;
 import nttdata.grupouno.com.Clients.models.dto.ClientsWithAccounts;
+import nttdata.grupouno.com.Clients.producer.KafkaStringProducer;
 import nttdata.grupouno.com.Clients.repositories.ClientesRepository;
 import nttdata.grupouno.com.Clients.services.ClientsService;
 import nttdata.grupouno.com.Clients.util.WebOperationsApi;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import reactor.core.CoreSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -33,11 +33,15 @@ public class ClientServiceImpl implements ClientsService {
     @Autowired
     private ClientsConvert clientsConvert;
 
+    private final KafkaStringProducer kafkaStringProducer;
+
     private final WebClient webClient;
+
     
     private final WebOperationsApi webOperationClient;
 
-    public ClientServiceImpl(WebClient.Builder webClientBuilder) {
+    public ClientServiceImpl(KafkaStringProducer kafkaStringProducer, WebClient.Builder webClientBuilder) {
+        this.kafkaStringProducer = kafkaStringProducer;
         this.webClient = webClientBuilder.baseUrl("http://localhost:8002").build();
         this.webOperationClient = new WebOperationsApi();
     }
@@ -128,9 +132,10 @@ public class ClientServiceImpl implements ClientsService {
 	public Mono<ClientsWithAccounts> findByIdClientWithAccounts(String id) {
 	
 		return findByIdPerson(id).map(client -> {
-			
+			System.out.println("Cliente : "+id);
+            System.out.println("Cliente : "+client);
 			final List<MasterAccount> lista = new ArrayList<>();
-			
+			kafkaStringProducer.Consult(client);
 			webOperationClient.findMasterAccountsByClient(client.getIdPerson()).map( account -> 
 			{
 				lista.add(account);

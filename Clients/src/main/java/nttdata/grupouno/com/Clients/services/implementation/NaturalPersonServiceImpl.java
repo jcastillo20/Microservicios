@@ -1,6 +1,7 @@
 package nttdata.grupouno.com.Clients.services.implementation;
 
 import nttdata.grupouno.com.Clients.models.NaturalPerson;
+import nttdata.grupouno.com.Clients.producer.KafkaStringProducer;
 import nttdata.grupouno.com.Clients.repositories.NaturalPersonRepository;
 import nttdata.grupouno.com.Clients.services.NaturalPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,8 @@ public class NaturalPersonServiceImpl implements NaturalPersonService {
     @Autowired
     private NaturalPersonRepository naturalPersonRepository;
 
-    //@Autowired
-    //private ClientServiceImpl clientService;
 
-    //@Autowired
-    //private NaturalClientsConvert naturalClientsConvert;
+
 
     @Override
     public Flux<NaturalPerson> listAllNaturalPerson() {
