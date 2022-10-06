@@ -1,8 +1,9 @@
 package nttdata.grupouno.com.operations.controllers;
 
 import nttdata.grupouno.com.operations.models.CardAccountModel;
-import nttdata.grupouno.com.operations.models.CardModel;
 import nttdata.grupouno.com.operations.services.implementation.CardAccountService;
+import nttdata.grupouno.com.operations.services.implementation.CardService;
+import nttdata.grupouno.com.operations.services.implementation.MasterAccountServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,28 @@ public class CardAccountController {
 
     @Autowired
     CardAccountService cardAccountService;
+    @Autowired
+    CardService cardService;
+
+    @Autowired
+    MasterAccountServices masterAccountServices;
 
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createRelation(@RequestBody CardAccountModel relation){cardAccountService.createCardAccount(relation);}
+    public void createRelation(@RequestBody CardAccountModel relation){
+
+        cardService.findCardById(relation.getIdCardModel()).map(t -> {
+            System.out.println("Tarjeta encontrada: " + t.getId());
+            return masterAccountServices.findById(relation.getIdMasterAccount()).map(c -> {
+                System.out.println("Cuenta encontrada: " + c.getId());
+                cardAccountService.createCardAccount(relation);
+                System.out.println("Agregado");
+                return c;
+            }).subscribe();
+        }).subscribe();
+
+        System.out.println("Error");
+    }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<Mono<CardAccountModel>> findAssociationById(@PathVariable("id") Integer id){
