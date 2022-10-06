@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
-public class Wallet {
+public class WalletModel {
     @Id
     private Integer id;
     @NotNull
