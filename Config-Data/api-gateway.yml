@@ -21,3 +21,7 @@ spring:
           uri: http://localhost:8010/
           predicates:
             - Path=/operation/**
+        - id: BootCoin-services
+          uri: http://localhost:8011/
+          predicates:
+            - Path=/bootCoin/**
