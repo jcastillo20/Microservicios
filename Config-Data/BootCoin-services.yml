@@ -1,5 +1,9 @@
 server:
   port: 8011
+spring:
+  data:
+    mongodb:
+      URI: mongodb://localhost:27017/BootCoin
 eureka: 
   client: 
     service-url:
