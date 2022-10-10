@@ -10,9 +10,9 @@ jobs:
       pull-requests: write
     steps:
     - name: Run
-    - run: echo "El trabajo se creo automaticamente"
+      run: echo "El trabajo se creo automaticamente"
     - name: Run Multi-line
-    - run: |
+      run: |
         echo What is in diretory?
          ls -a
          echo
