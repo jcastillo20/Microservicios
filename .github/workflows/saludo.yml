@@ -1,0 +1,12 @@
+name: Greetings
+
+on: [push]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - run: echo "El trabajo se creo automaticamente"
