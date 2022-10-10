@@ -9,4 +9,20 @@ jobs:
       issues: write
       pull-requests: write
     steps:
+    - name: Run
     - run: echo "El trabajo se creo automaticamente"
+    - name: Run Multi-line
+    - run: |
+        echo What is in diretory?
+         ls -a
+         echo
+         echo Is Java installed?
+         java -version
+         echo
+         echo Is Git installed?
+         git --version
+         echo what about build tools?
+         mvn --version
+         gradle --version
+         ant -version
+    
